@@ -9,12 +9,14 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faArrowUp, faArrowRight, faArrowDown, faArrowLeft, faDoorOpen } from '@fortawesome/free-solid-svg-icons';
 import { ActionBarComponent } from './maze/action-bar/action-bar.component';
+import { RobotComponent } from './maze/robot/robot.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MazeComponent,
-    ActionBarComponent
+    ActionBarComponent,
+    RobotComponent
   ],
   imports: [
     BrowserModule,

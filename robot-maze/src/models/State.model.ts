@@ -7,5 +7,7 @@ export class State {
   index : number;
   availableActions : Action[];
   isValid : boolean;
+  isPositiveExit : boolean;
+  isNegativeExit : boolean;
 
 }

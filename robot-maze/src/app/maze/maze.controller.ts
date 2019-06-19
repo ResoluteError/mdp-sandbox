@@ -33,14 +33,19 @@ export class Maze {
     this.build(0)
         .setBlockedStates([5])
         .setExitStates([3], 10)
-        .setExitStates([7], -10);
+        .setExitStates([7], -10)
+        .resetPlaver();
     
     this.currentPosition = {x : 0, y : height - 1 };
 
     this.availableActions = this.states[this.positionToIndex(this.currentPosition)].availableActions;
   }
 
-  private build(navigationReward : number): Maze{
+  public build(navigationReward : number): Maze{
+
+    this.states = [];
+    this.transitionModels = [];
+    this.availableActions = [];
 
     for( var y = 0; y < this.height; y++){
       for( var x = 0; x < this.width; x++){
@@ -49,7 +54,9 @@ export class Maze {
           y : y,
           index : y * this.width + x,
           availableActions : Action.AllNavigationActions(),
-          isValid : true
+          isValid : true,
+          isNegativeExit: false,
+          isPositiveExit: false
         });
         this.transitionModels.push(
           TransitionModel.simpleNavigationTransitionModel(navigationReward)
@@ -61,7 +68,7 @@ export class Maze {
 
   }
 
-  private setBlockedStates( stateIndeces: number[]): Maze{
+  public setBlockedStates( stateIndeces: number[]): Maze{
 
     for( var index of stateIndeces){
       this.states[index].availableActions = [];
@@ -74,16 +81,29 @@ export class Maze {
 
   }
 
-  private setExitStates(stateIndeces: number[], reward : number): Maze{
+  public setExitStates(stateIndeces: number[], reward : number): Maze{
 
     for( var index of stateIndeces){
       this.states[index].availableActions = Action.GetExitAction( );
-
+      if(reward > 0){
+        this.states[index].isPositiveExit = true;
+      } else {
+        this.states[index].isNegativeExit = true;
+      }
       this.transitionModels[index] = TransitionModel.simpleExitTransitionModel(reward);
     }
 
     return this;
 
+  }
+
+  resetPlaver(){
+  
+    this.currentPosition = {x : 0, y : this.height - 1};
+    this.availableActions = this.states[this.positionToIndex(this.currentPosition)].availableActions;
+    this.isCompleted = false;
+    this.lastReward = 0;
+    
   }
 
   public doAction(actionIndex : number): ActionResult{

@@ -1,12 +1,70 @@
-<canvas #mazeCanvas></canvas>
-<h3>Available Actions:</h3>
 
-<ng-container  *ngIf="!isCompleted" >
-  <app-action-bar *ngFor="let action of availableActions" [action]="action" (choose)="pickAction($event)"></app-action-bar>
-</ng-container>
-<ng-container *ngIf="isCompleted">
-  Exited maze
-</ng-container>
-<p>
-  Reward for last action: {{lastReward}}
-</p>
+<div class="container-fluid mb-5">
+
+  <header>
+    <div class="container  mt-3 mb-5">
+      <div class="row">
+        <div class="col">
+          <h1 class="text-center">Markov Decision Processes</h1>
+          <h2 class="text-center">Maze Demo</h2>
+        </div>
+      </div>
+    </div>
+  </header>
+  <main>
+    <div class="container">
+      <div class="row">
+        <div class="col text-center">
+            <div class="dropdown">
+
+                <button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Generate Maze
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <a class="dropdown-item" href="#" (click)="generateMaze(1)">Simple (4x3)</a>
+                  <a class="dropdown-item" href="#" (click)="generateMaze(2)">Advanced (8x6)</a>
+                  <a class="dropdown-item" href="#" (click)="generateMaze(3)">Expert (16 x 12)</a>
+                </div>
+              </div>
+              
+              <canvas #mazeCanvas></canvas>
+
+              <div class="row">
+                <div class="col-lg-4 d-none d-lg-block">
+                  <h3 class="mt-3">Legend</h3>
+                  <ul class="list-group ">
+                    <li class="list-group-item" style="background-color: #b8daff">Current Position</li>
+                    <li class="list-group-item">Possible States</li>
+                    <li class="list-group-item" style="background-color: #d6d8db">Blocked State</li>
+                    <li class="list-group-item" style="background-color: #c3e6cb">Positive Reward Exit State</li>
+                    <li class="list-group-item" style="background-color: #f5c6cb">Negative Reward Exit State</li>
+                  </ul>
+                </div>
+                <div class="col-lg-4 col-md-6">
+
+                    <h3 class="mt-3">Available Actions</h3>
+                    
+                    <ng-container  *ngIf="!isCompleted" >
+                      <app-action-bar *ngFor="let action of availableActions" [action]="action" (choose)="pickAction($event)"></app-action-bar>
+                    </ng-container>
+                    <ng-container *ngIf="isCompleted">
+                      <h5>Finished Maze</h5>
+                      <button class="btn btn-primary" (click)="restart()">
+                        Restart
+                      </button>
+                    </ng-container>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <h3 class="mt-3">Rewards</h3>
+                    <p>
+                      Reward for last action: <span class="badge badge-dark">{{lastReward}}</span>
+                    </p>
+                </div>
+              </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+</div>
