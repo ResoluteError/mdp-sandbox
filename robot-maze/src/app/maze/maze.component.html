@@ -1,0 +1,12 @@
+<canvas #mazeCanvas></canvas>
+<h3>Available Actions:</h3>
+
+<ng-container  *ngIf="!isCompleted" >
+  <app-action-bar *ngFor="let action of availableActions" [action]="action" (choose)="pickAction($event)"></app-action-bar>
+</ng-container>
+<ng-container *ngIf="isCompleted">
+  Exited maze
+</ng-container>
+<p>
+  Reward for last action: {{lastReward}}
+</p>
