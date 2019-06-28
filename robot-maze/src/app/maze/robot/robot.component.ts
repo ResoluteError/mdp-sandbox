@@ -1,15 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { MazeComponent } from '../maze.component';
+import { Robot } from './robot.controller';
 
 @Component({
   selector: 'app-robot',
   templateUrl: './robot.component.html',
   styleUrls: ['./robot.component.scss']
 })
-export class RobotComponent implements OnInit {
+export class RobotComponent extends Robot implements OnInit {
 
-  constructor() { }
+  @Input() maze : MazeComponent;
+
+  stateIndex : number = 0;
+
+  constructor() {
+    super();
+  }
 
   ngOnInit() {
   }
+
 
 }

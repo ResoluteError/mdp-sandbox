@@ -1,0 +1,17 @@
+<h3 class="mt-3">MDP Solver</h3>
+<form>
+  <div class="form-group text-left">
+    <label>Iterations:</label>
+    <input class="form-control" type="number" name="kVal" [(ngModel)]="kVal">
+  </div>
+  <!-- <div class="form-group text-left">
+    <label>Index Value</label>
+    <input class="form-control" type="number" name="stateIndex" [(ngModel)]="stateIndex">
+  </div> -->
+  <button class="btn btn-primary" (click)="doValueIteration()">Value Iteration</button>
+  <br>
+  <button class="btn btn-info mt-2" (click)="doPolicyIteration()">Policy Iteration</button>
+  <div>
+    <p>Status: {{status}}</p>
+  </div>
+</form>

@@ -10,7 +10,7 @@ export class Maze {
   states : State[];
   currentPosition : Position;
   availableActions : Action[] = [];
-  private transitionModels : TransitionModel[];
+  transitionModels : TransitionModel[];
   isCompleted : boolean;
   lastReward : number;
 
@@ -129,92 +129,114 @@ export class Maze {
         completed: true
       }
     } else {
-      var navResult : boolean;
+      var newPosition : Position;
       switch(transition.actionType){
         case ActionType.MoveUp : 
-          navResult = this.moveUp();
+          newPosition = this.moveUp(this.currentPosition);
           break;
         case ActionType.MoveRight : 
-          navResult = this.moveRight();
+          newPosition = this.moveRight(this.currentPosition);
           break;
         case ActionType.MoveDown : 
-          navResult = this.moveDown();
+          newPosition = this.moveDown(this.currentPosition);
           break;
         case ActionType.MoveLeft : 
-          navResult = this.moveLeft();
+          newPosition = this.moveLeft(this.currentPosition);
           break;
+      }
+      var changedPositions : boolean = false;
+      if( newPosition.x !== this.currentPosition.x || newPosition.y !== this.currentPosition.y){
+        changedPositions = true;
+        this.currentPosition = newPosition;
       }
       return {
         reward: transition.reward,
         nextState: this.positionToIndex(this.currentPosition),
-        completed: navResult
+        completed: changedPositions
       }      
     }
 
   }
 
-  private moveUp(): boolean {
+  public moveUp(currentPosition : Position): Position {
 
-    var tempx = (this.currentPosition.x);
-    var tempy = (this.currentPosition.y) - 1;
-    var tempIndex = this.positionToIndex(tempx, tempy);
-
-    if(tempIndex >= 0 && tempIndex < this.states.length && this.states[tempIndex].isValid){
-      this.currentPosition.y = tempy;
-      return true;
-    }
-
-    return false;
-
-  }
-  
-  private moveDown(): boolean {
-
-    var tempx = (this.currentPosition.x);
-    var tempy = (this.currentPosition.y) + 1;
-    var tempIndex = this.positionToIndex(tempx, tempy);
-
-    if(tempIndex >= 0 && tempIndex < this.states.length && this.states[tempIndex].isValid){
-      this.currentPosition.y = tempy;
-      return true;
-    }
-
-    return false;
-
-  }
-
-  private moveLeft(): boolean {
-
-    var tempx = (this.currentPosition.x) - 1;
-    var tempy = (this.currentPosition.y);
+    var tempx = (currentPosition.x);
+    var tempy = (currentPosition.y) - 1;
     var tempIndex = this.positionToIndex(tempx, tempy);
 
     if(tempx < 0 || tempx >= this.width || tempy < 0 || tempy >= this.height){
-      return false;
+      return currentPosition;
     }
 
     if(tempIndex >= 0 && tempIndex < this.states.length && this.states[tempIndex].isValid){
-      this.currentPosition.x = tempx;
-      return true;
+      return {
+        x : tempx,
+        y : tempy
+      }
     }
 
-    return false;
-    
+    return currentPosition;
+
   }
+  
+  public moveDown(currentPosition : Position): Position {
 
-  private moveRight(): boolean {
-
-    var tempx = (this.currentPosition.x) + 1;
-    var tempy = (this.currentPosition.y);
+    var tempx = (currentPosition.x);
+    var tempy = (currentPosition.y) + 1;
     var tempIndex = this.positionToIndex(tempx, tempy);
 
-    if(tempIndex >= 0 && tempIndex < this.states.length && this.states[tempIndex].isValid){
-      this.currentPosition.x = tempx;
-      return true;
+    if(tempx < 0 || tempx >= this.width || tempy < 0 || tempy >= this.height){
+      return currentPosition;
     }
 
-    return false;
-    
+    if(tempIndex >= 0 && tempIndex < this.states.length && this.states[tempIndex].isValid){
+      return {
+        x : tempx,
+        y : tempy
+      }
+    }
+
+    return currentPosition;
+  }
+
+  public moveLeft(currentPosition : Position): Position {
+
+    var tempx = (currentPosition.x) - 1;
+    var tempy = (currentPosition.y);
+    var tempIndex = this.positionToIndex(tempx, tempy);
+
+    if(tempx < 0 || tempx >= this.width || tempy < 0 || tempy >= this.height){
+      return currentPosition;
+    }
+
+    if(tempIndex >= 0 && tempIndex < this.states.length && this.states[tempIndex].isValid){
+      return {
+        x : tempx,
+        y : tempy
+      }
+    }
+
+    return currentPosition;
+  }
+
+  public moveRight(currentPosition : Position): Position {
+
+    var tempx = (currentPosition.x) + 1;
+    var tempy = (currentPosition.y);
+    var tempIndex = this.positionToIndex(tempx, tempy);
+
+    if(tempx < 0 || tempx >= this.width || tempy < 0 || tempy >= this.height){
+      return currentPosition;
+    }
+
+    if(tempIndex >= 0 && tempIndex < this.states.length && this.states[tempIndex].isValid){
+      return {
+        x : tempx,
+        y : tempy
+      }
+    }
+
+    return currentPosition;
   }
 
   public positionToIndex(xOrPos: Position | number, y? : number): number {

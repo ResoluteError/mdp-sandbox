@@ -10,18 +10,22 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { faArrowUp, faArrowRight, faArrowDown, faArrowLeft, faDoorOpen } from '@fortawesome/free-solid-svg-icons';
 import { ActionBarComponent } from './maze/action-bar/action-bar.component';
 import { RobotComponent } from './maze/robot/robot.component';
+import { FormsModule } from '@angular/forms';
+import { SolverComponent } from './maze/solver/solver.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MazeComponent,
     ActionBarComponent,
-    RobotComponent
+    RobotComponent,
+    SolverComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
